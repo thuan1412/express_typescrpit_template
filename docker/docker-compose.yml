@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    volumes:
+      - dubbing-mariadb:/var/lib/mysql
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+
+      - MYSQL_ROOT_PASSWORD=123qwe
+      - MYSQl_TCP_PORT=33030
+      - MYSQL_UNIX_PORT=33020
+    ports:
+      - '3307:3306'
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    # restart: always
+    volumes: 
+      - ../:/app/
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - PORT=${PORT}
+    depends_on:
+      - mariadb
+
+volumes:
+  dubbing-mariadb:
