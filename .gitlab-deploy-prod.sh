@@ -10,5 +10,5 @@ echo
 # iterate..
 for i in "${!array[@]}"; do
     echo "Deploy on... ${array[i]}"
-    ssh ubuntu@${array[i]} "cd /app && git pull origin feat/set-up-ci-cd && sudo docker-compose"
+    ssh ubuntu@${array[i]} "cd dubbing-backend && git pull origin feat/set-up-ci-cd && sudo docker-compose restart"
 done

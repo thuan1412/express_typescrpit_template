@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => res.send("Express + TypeScript Server"));
+app.get("/", (req, res) => res.send("Express + TypeScript Server: Test CD"));
 app.listen(PORT, () => {
   console.log(`⚡️[]: Server is running at http://localhost:${PORT}`);
 });
