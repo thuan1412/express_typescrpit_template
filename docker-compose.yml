@@ -1,11 +1,19 @@
 version: "3"
 
+networks:
+  dubbing:
+    external:
+      name: dubbing
+
 services:
   mariadb:
     image: mariadb:latest
-    restart: always
+    # restart: always
     volumes:
       - dubbing-mariadb:/var/lib/mysql
+
+    networks:
+      - dubbing
     environment:
       - TZ=Asia/Ho_Chi_Minh
 
@@ -16,11 +24,18 @@ services:
       - '3307:3306'
   backend:
     build:
-      context: ..
-      dockerfile: docker/Dockerfile
+      context: .
+      dockerfile: ${DOCKER_FILE}
+
+    networks:
+      - dubbing
     # restart: always
     volumes: 
-      - ../:/app/
+      - ./:/app/:delegated
+      - ./package.json:/app/package.json
+      # - ./package-lock.json:/app/package-lock.json
+      - ./yarn.lock:/app/yarn.lock
+      - notused:/app/node_modules
     ports:
       - ${PORT}:${PORT}
     environment:
@@ -31,3 +46,4 @@ services:
 
 volumes:
   dubbing-mariadb:
+  notused:
