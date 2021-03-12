@@ -1,6 +1,5 @@
-Dockerfile
-docker-compose.yml
+.git
+*Dockerfile*
+*docker-compose*
 node_modules
-logos.png
-LICENSE
 README.md
