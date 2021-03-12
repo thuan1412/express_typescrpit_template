@@ -2,7 +2,7 @@ production_job:
   image: alpine:latest
   stage: deploy
   only: 
-    - feat/set-up-ci-cd
+    - master
   before_script:
     - apk add --update openssh-client bash
     - eval $(ssh-agent -s)
