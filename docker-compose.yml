@@ -6,22 +6,21 @@ networks:
       name: dubbing
 
 services:
-  mariadb:
-    image: mariadb:latest
-    # restart: always
-    volumes:
-      - dubbing-mariadb:/var/lib/mysql
+  # mariadb:
+  #   image: mariadb:latest
+  #   # restart: always
+  #   volumes:
+  #     - dubbing-mariadb:/var/lib/mysql
 
-    networks:
-      - dubbing
-    environment:
-      - TZ=Asia/Ho_Chi_Minh
-
-      - MYSQL_ROOT_PASSWORD=123qwe
-      - MYSQl_TCP_PORT=33030
-      - MYSQL_UNIX_PORT=33020
-    ports:
-      - '3307:3306'
+  #   networks:
+  #     - dubbing
+  #   environment:
+  #     - TZ=Asia/Ho_Chi_Minh
+  #     - MYSQL_ROOT_PASSWORD=123qwe
+  #     - MYSQl_TCP_PORT=33030
+  #     - MYSQL_UNIX_PORT=33020
+  #   ports:
+  #     - '3307:3306'
   backend:
     build:
       context: .
@@ -35,14 +34,14 @@ services:
       - ./package.json:/app/package.json
       # - ./package-lock.json:/app/package-lock.json
       - ./yarn.lock:/app/yarn.lock
-      - notused:/app/node_modules
+      # - notused:/app/node_modules
     ports:
       - ${PORT}:${PORT}
     environment:
       - TZ=Asia/Ho_Chi_Minh
       - PORT=${PORT}
-    depends_on:
-      - mariadb
+    # depends_on:
+    #   - mariadb
 
 volumes:
   dubbing-mariadb:
