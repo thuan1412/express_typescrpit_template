@@ -1,23 +1,32 @@
-import fs from "fs";
-import readline from "readline";
+import fs from 'fs';
+import readline from 'readline';
+
+interface JSONBlock {
+  index?: number;
+  time?: {
+    start: string;
+    end: string;
+  };
+  content?: string;
+}
 
 /**
  * formatTime
  * @param time thời gian cần format
  */
-const formatTime = (time: string) => {
-  let str = time.replace(".", ",");
-  var hour = null;
-  var minute = null;
-  var second = null;
-  var millisecond = null;
+const formatTime = (timeInput: string) => {
+  const str = timeInput.replace('.', ',');
+  let hour = null;
+  let minute = null;
+  let second = null;
+  let millisecond = null;
 
   /* format millisecond */
-  var [time, ms] = str.split(",");
+  const [time, ms] = str.split(',');
   millisecond = formatDigit(3, ms);
 
   /* Handle hour */
-  var [currentHour, currentMinute, currentSecond] = time.split(":");
+  const [currentHour, currentMinute, currentSecond] = time.split(':');
   hour = formatDigit(2, currentHour, false);
   minute = formatDigit(2, currentMinute, false);
   second = formatDigit(2, currentSecond, false);
@@ -31,7 +40,7 @@ const formatTime = (time: string) => {
  * @param str số cần format
  * @param padEnd cắt ở cuối
  */
-const formatDigit = (number: number, str: string, padEnd = true) => {
+const formatDigit = (number: number, str: string, padEnd: boolean = true) => {
   if (str.length == number) {
     return str;
   }
@@ -40,9 +49,9 @@ const formatDigit = (number: number, str: string, padEnd = true) => {
   }
   if (str.length < number) {
     if (padEnd) {
-      return str.padEnd(number, "0");
+      return str.padEnd(number, '0');
     } else {
-      return str.padStart(number, "0");
+      return str.padStart(number, '0');
     }
   }
 };
@@ -57,23 +66,22 @@ const formatDigit = (number: number, str: string, padEnd = true) => {
 const readData = (data: string, type: number, line: number, jsonBlock: any) => {
   switch (type) {
     case 1: {
-      jsonBlock.index = data;
+      jsonBlock.index = data.trim();
       break;
     }
     case 2: {
-      const splitBlock = data.split("-->");
+      const splitBlock = data.split('-->');
       if (splitBlock.length >= 2) {
         jsonBlock.time = {};
         jsonBlock.time.start = formatTime(splitBlock[0].trim());
         jsonBlock.time.end = formatTime(splitBlock[1].trim());
       } else {
-        throw "missing time at line " + line;
+        throw 'missing time at line ' + line;
       }
       break;
     }
     case 3: {
-      jsonBlock.content =
-        (jsonBlock.content ? jsonBlock.content + " " : "") + data;
+      jsonBlock.content = (jsonBlock.content ? jsonBlock.content + ' ' : '') + data;
       break;
     }
   }
@@ -81,13 +89,13 @@ const readData = (data: string, type: number, line: number, jsonBlock: any) => {
 
 const processLineByLine = async (pathFile: string) => {
   /* Khai báo biến */
-  let type = 0;
-  let jsonBlock = {};
-  let lineIndex = 0;
-  let endBlock = false;
-  const resultJson = [];
+  let type: number = 0;
+  let jsonBlock: JSONBlock = {};
+  let lineIndex: number = 0;
+  let endBlock: boolean = false;
+  const resultJson: JSONBlock[] = [];
   /* Bắt đầu đọc từng dòng */
-  const fileStream = fs.createReadStream(pathFile, "utf16le");
+  const fileStream = fs.createReadStream(pathFile);
   const rl = readline.createInterface({
     input: fileStream,
     crlfDelay: Infinity,
@@ -124,4 +132,3 @@ const parser = async (filePath: string) => {
 };
 
 export default parser;
-
