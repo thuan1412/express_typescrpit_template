@@ -4,6 +4,8 @@
     "module": "commonjs",
     "rootDir": "./",
     "outDir": "./build",
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "strict": true
   }
