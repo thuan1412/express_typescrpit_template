@@ -1,0 +1,23 @@
+paths:
+  /subtitle:
+    post:
+      summary: Upload a `.srt` file
+      description: Optional extended description in CommonMark or HTML.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                srtFile:
+                  type: string
+                  format: binary
+      responses:
+        '200':    # status code
+          description: Json format of srt file
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: object

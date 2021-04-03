@@ -6,6 +6,7 @@ const upload = multer({ dest: "upload-files" });
 const router = Router();
 
 router.post("/", upload.single("srtFile"), addSubtitle);
+
 router.get("/:id", getSubtitle);
 
 export default router;
