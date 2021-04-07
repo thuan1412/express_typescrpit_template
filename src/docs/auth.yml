@@ -1,0 +1,55 @@
+paths:
+  /auth/register:
+    post:
+      summary: Register new user
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                username:
+                  type: string
+                lastName:
+                  type: string
+                firstName:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':    # status code
+          description: Json format of srt file
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: object
+  /auth/login:
+    post:
+      summary: Login
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':    # status code
+          description: Json format of srt file
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: object

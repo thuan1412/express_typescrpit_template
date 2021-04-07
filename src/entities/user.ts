@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import UserCredentials from "./user-credentials";
 
 @Entity({
   name: "user",
@@ -8,8 +15,22 @@ export default class User {
   id: number;
 
   @Column("text")
-  first_name: string;
+  username: string;
 
-  @Column("text")
-  last_name: string;
+  @Column({type:"text"})
+  email: string;
+
+  @Column({ name: "first_name", type: "text" })
+  firstName: string;
+
+  @Column({ name: "last_name", type: "text" })
+  lastName: string;
+
+  @OneToOne(
+    () => UserCredentials,
+    (userCredentials) => userCredentials.user_id,
+    { cascade: true }
+  )
+  @JoinColumn({ name: "id", referencedColumnName: "user_id" })
+  userCredentials: UserCredentials;
 }

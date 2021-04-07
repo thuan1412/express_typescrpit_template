@@ -14,6 +14,14 @@ export class createUserTable1615305196024 implements MigrationInterface {
             generationStrategy: "increment",
           },
           {
+            name: "username",
+            type: "varchar",
+          },
+          {
+            name: "email",
+            type: "varchar",
+          },
+          {
             name: "first_name",
             type: "varchar",
           },
@@ -27,6 +35,6 @@ export class createUserTable1615305196024 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.dropTable("user");
+    await queryRunner.dropTable("user");
   }
 }
