@@ -2,6 +2,8 @@ paths:
   /subtitle:
     post:
       summary: Upload a `.srt` file
+      tags:
+        - Subtitle
       description: Optional extended description in CommonMark or HTML.
       requestBody:
         content:

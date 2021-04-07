@@ -11,3 +11,4 @@
 
 // export subtitleRouter = require("./subtitle");
 export { default as subtitleRouter } from "./subtitle";
+export { default as authRouter } from "./auth";
