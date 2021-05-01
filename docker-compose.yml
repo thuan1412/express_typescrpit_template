@@ -44,5 +44,4 @@ services:
     #   - mariadb
 
 volumes:
-  dubbing-mariadb:
   notused:

@@ -1,11 +1,15 @@
 import express from "express";
 
-import { authRouter, subtitleRouter } from "./routes";
+import { authRouter, noteRouter, subtitleRouter } from "./routes";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 
 import dotenv from "dotenv";
 import { createConnection } from "typeorm";
+import http from "http";
+import { Server, Socket } from "socket.io";
+import socketController from "./controllers/socket.controller";
 
 dotenv.config();
 
@@ -60,12 +64,20 @@ const options = {
 const specs = swaggerJsdoc(options);
 
 const app = express();
+app.use(cors());
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 app.use(express.urlencoded());
 app.use(express.json());
 
 app.use("/subtitle", subtitleRouter);
 app.use("/auth", authRouter);
+app.use("/", noteRouter);
 
 app.get("/", (_req, res) => res.send("Express + TypeScript Server: Test CD"));
 
@@ -75,6 +87,8 @@ app.use(
   swaggerUi.setup(specs, { explorer: true })
 );
 
-app.listen(PORT, () => {
+socketController(io);
+
+server.listen(PORT, () => {
   console.log(`⚡️[]: Server is running at http://localhost:${PORT}`);
 });
