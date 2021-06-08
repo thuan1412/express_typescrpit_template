@@ -24,6 +24,24 @@ const getNote = async (req: Request, res: Response) => {
   res.json(note);
 };
 
+const getNotes = async (req: Request, res: Response) => {
+  const noteRepo = getRepository(Note);
+  const notes = await noteRepo.find();
+  res.json(notes);
+};
+
+const patchNote = async (req: Request, res: Response) => {
+  const noteData = req.body;
+  const noteId = parseInt(req.params.id as string);
+  const noteRepo = getRepository(Note);
+
+  console.log(noteData);
+  console.log(noteId);
+  await noteRepo.update({ id: noteId }, noteData);
+  const note = await noteRepo.findOne(noteId);
+  res.status(204).send();
+};
+
 const updateNote = async (req: Request, res: Response) => {
   const noteData = req.body;
   const noteId = parseInt(req.params.id as string);
@@ -37,4 +55,4 @@ const updateNote = async (req: Request, res: Response) => {
 
 const exportNote = async (req: Request, res: Response) => {};
 
-export default { createNote, getNote, updateNote };
+export default { createNote, getNote, getNotes, updateNote, patchNote };
